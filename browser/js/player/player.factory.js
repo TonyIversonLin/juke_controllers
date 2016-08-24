@@ -11,7 +11,7 @@ juke.factory('PlayerFactory', function($rootScope){
 
 
 
-  playerFactory.start = function(event, song, songList){
+  playerFactory.start = function(song, songList){
     this.pause();
   	audio.src = song.audioUrl;
     audio.load();

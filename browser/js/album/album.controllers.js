@@ -21,21 +21,30 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
     .then(album => $scope.album = album)
     .catch($log.error); // $log service can be turned on and off; also, pre-bound
 
+$scope.playing = PlayerFactory.isPlaying;
 
   // main toggle
   $scope.toggle = function (song) {
-    if ($scope.playing && song === $scope.currentSong) {
-      $rootScope.$broadcast('pause');
+    console.log($scope.playing,$scope.currentSong);
+    if ($scope.playing() && song === $scope.currentSong) {
+      //$rootScope.$broadcast('pause');
+      PlayerFactory.pause().bind(PlayerFactory);
+      //$scope.playing = PlayerFactory.isPlaying();
+
     } else {
-      $rootScope.$broadcast('play', song);
+      //$rootScope.$broadcast('play', song);
+      PlayerFactory.start(song).bind(PlayerFactory);
+      //$scope.playing = PlayerFactory.isPlaying();
+      $scope.currentSong = PlayerFactory.getCurrentSong();
+  // }
     }
   };
 
   // incoming events (from Player, toggle, or skip)
-  $scope.$on('pause', PlayerFactory.pause.bind(PlayerFactory));
-  $scope.$on('play', PlayerFactory.start.bind(PlayerFactory));
-  $scope.$on('next', PlayerFactory.next.bind(PlayerFactory));
-  $scope.$on('prev', PlayerFactory.previous.bind(PlayerFactory));
+  // $scope.$on('pause', PlayerFactory.pause.bind(PlayerFactory));
+  // $scope.$on('play', PlayerFactory.start.bind(PlayerFactory));
+  // $scope.$on('next', PlayerFactory.next.bind(PlayerFactory));
+  // $scope.$on('prev', PlayerFactory.previous.bind(PlayerFactory));
 
   // functionality
   // function pause () {
