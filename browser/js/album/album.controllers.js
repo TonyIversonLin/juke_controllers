@@ -22,7 +22,9 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
 
 $scope.playing = PlayerFactory.isPlaying;
 
-
+$scope.getCurrentSong = function(){
+  return PlayerFactory.getCurrentSong(); 
+}
   // main toggle
   $scope.toggle = function (song) {
     if($scope.playing() && song === $scope.currentSong){
@@ -32,7 +34,7 @@ $scope.playing = PlayerFactory.isPlaying;
         PlayerFactory.resume();
       } else {
         PlayerFactory.start(song, $scope.album.songs);
-        $scope.currentSong = PlayerFactory.getCurrentSong();  
+        $scope.currentSong = PlayerFactory.getCurrentSong(); 
       }
     }
   };

@@ -39,17 +39,14 @@ juke.factory('PlayerFactory', function($rootScope){
     // console.log('reached')
     var index = this.songList.indexOf(this.currentSong);
     index++;
-
-
-    if(index > this.songList.length - 1) this.start(this.songList[0]);
-    else this.start(this.songList[index]);
+    if(index > this.songList.length - 1) this.start(this.songList[0],this.songList);
+    else this.start(this.songList[index],this.songList);
   };
   playerFactory.previous = function(){
     var index = this.songList.indexOf(this.currentSong);
     index--;
-    if(index<0) this.start(this.songList[this.songList.length-1]);
-    else this.start(this.songList[index]);
-
+    if(index<0) this.start(this.songList[this.songList.length-1],this.songList);
+    else this.start(this.songList[index],this.songList);
   };
   playerFactory.getProgress = function(){
     if(!audio.src) return 0;
