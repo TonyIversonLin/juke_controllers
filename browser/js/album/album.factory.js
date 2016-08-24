@@ -19,18 +19,19 @@ juke.factory('StatsFactory', function ($q) {
   return statsObj;
 });
 
+
+
 juke.factory('AlbumFactory',function($http){
 	var albumFactory = {};
 	albumFactory.fetchAll = function(){
 		return $http.get('/api/albums/')
 			.then(function (res) { return res.data; });		
-	}
-	albumFactory.fetchById = function(id){
-		return albumFactory.fetchAll().then(function(albums){
-			return $http.get('/api/albums/' + albums[id].id); 
-		}) 
-		
-	}
+	};
+
+	albumFactory.fetchById = function(NumId){
+			return $http.get('/api/albums/' + NumId)
+        .then(res => res.data);
+	};
 
 	return albumFactory;
 })
