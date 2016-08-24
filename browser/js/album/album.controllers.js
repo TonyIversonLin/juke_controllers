@@ -3,8 +3,6 @@
 
 juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, AlbumFactory, PlayerFactory) {
 
-
-
   AlbumFactory.fetchById(1)
     .then(function(album){
       album.imageUrl = '/api/albums/' + album.id + '/image';
@@ -21,22 +19,17 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
     .then(album => $scope.album = album)
     .catch($log.error); // $log service can be turned on and off; also, pre-bound
 
+
 $scope.playing = PlayerFactory.isPlaying;
+
 
   // main toggle
   $scope.toggle = function (song) {
-    console.log($scope.playing,$scope.currentSong);
-    if ($scope.playing() && song === $scope.currentSong) {
-      //$rootScope.$broadcast('pause');
-      PlayerFactory.pause().bind(PlayerFactory);
-      //$scope.playing = PlayerFactory.isPlaying();
-
+    if($scope.playing() && song === $scope.currentSong){
+      PlayerFactory.pause();
     } else {
-      //$rootScope.$broadcast('play', song);
-      PlayerFactory.start(song).bind(PlayerFactory);
-      //$scope.playing = PlayerFactory.isPlaying();
+      PlayerFactory.start(song, $scope.album.songs);
       $scope.currentSong = PlayerFactory.getCurrentSong();
-  // }
     }
   };
 
