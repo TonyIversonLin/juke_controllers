@@ -28,8 +28,12 @@ $scope.playing = PlayerFactory.isPlaying;
     if($scope.playing() && song === $scope.currentSong){
       PlayerFactory.pause();
     } else {
-      PlayerFactory.start(song, $scope.album.songs);
-      $scope.currentSong = PlayerFactory.getCurrentSong();
+      if(!$scope.playing() && song === $scope.currentSong){
+        PlayerFactory.resume();
+      } else {
+        PlayerFactory.start(song, $scope.album.songs);
+        $scope.currentSong = PlayerFactory.getCurrentSong();  
+      }
     }
   };
 

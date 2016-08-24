@@ -34,10 +34,14 @@ juke.factory('PlayerFactory', function($rootScope){
   playerFactory.getCurrentSong = function(){
     return this.currentSong || null;
   };
+
   playerFactory.next = function(){
+    // console.log('reached')
     var index = this.songList.indexOf(this.currentSong);
     index++;
-    if(index>this.songList.length-1) this.start(this.songList[0]);
+
+
+    if(index > this.songList.length - 1) this.start(this.songList[0]);
     else this.start(this.songList[index]);
   };
   playerFactory.previous = function(){
@@ -49,7 +53,7 @@ juke.factory('PlayerFactory', function($rootScope){
   };
   playerFactory.getProgress = function(){
     if(!audio.src) return 0;
-    return audio.currentTime/audio.duration;
+    return audio.currentTime/audio.duration * 100;
   };
 
 

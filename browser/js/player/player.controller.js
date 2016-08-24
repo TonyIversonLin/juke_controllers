@@ -19,25 +19,27 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
 
 
 
-
   // state
-  $scope.currentSong = PlayerFactory.getCurrentSong();//null
-
   $scope.playing = PlayerFactory.isPlaying;
 
   // main toggle
-  $scope.toggle = function (song) {
+  $scope.toggle = function () {
+    var song = PlayerFactory.getCurrentSong();
     if($scope.playing() && song === $scope.currentSong){
       PlayerFactory.pause();
     } else {
-      PlayerFactory.start(song, $scope.album.songs);
-      $scope.currentSong = PlayerFactory.getCurrentSong();
-      console.log($scope.currentSong);
+      if(!$scope.playing() && song === $scope.currentSong){
+        PlayerFactory.resume();
+      } else {
+        PlayerFactory.start(song, PlayerFactory.songList);
+        $scope.currentSong = PlayerFactory.getCurrentSong();  
+      }
+      
     }
   };
 
-  $scope.prev = PlayerFactory.previous;
-  $scope.next = PlayerFactory.next;
+  $scope.prev = PlayerFactory.previous.bind(PlayerFactory);
+  $scope.next = PlayerFactory.next.bind(PlayerFactory);
 
 
   // $scope.toggle = function (song) {
@@ -46,8 +48,8 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   // };
 
   // incoming events (from Album or toggle)
-  $scope.$on('pause', PlayerFactory.pause.bind(PlayerFactory));
-  $scope.$on('play', PlayerFactory.start.bind(PlayerFactory));
+  // $scope.$on('pause', PlayerFactory.pause.bind(PlayerFactory));
+  // $scope.$on('play', PlayerFactory.start.bind(PlayerFactory));
 
   // functionality
   // function pause () {
@@ -77,7 +79,7 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   // $scope.prev = function () { PlayerFactory.pause(); $rootScope.$broadcast('prev'); };
 
   function seek (decimal) {
-    audio.currentTime = audio.duration * decimal;
+    PlayerFactory.audio.currentTime = PlayerFactory.audio.duration * decimal;
   }
 
   $scope.handleProgressClick = function (evt) {
