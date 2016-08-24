@@ -11,7 +11,7 @@ juke.factory('PlayerFactory', function($rootScope){
 
 
 
-  playerFactory.start = function(song,songList){
+  playerFactory.start = function(event, song, songList){
     this.pause();
   	audio.src = song.audioUrl;
     audio.load();
@@ -20,7 +20,7 @@ juke.factory('PlayerFactory', function($rootScope){
     this.currentSong = song;
     this.songList = songList;
   };
-  playerFactory.pause = function(){
+  playerFactory.pause = function(event){
       audio.pause();
       audio.playStatus = false;
   };
@@ -49,12 +49,10 @@ juke.factory('PlayerFactory', function($rootScope){
   };
   playerFactory.getProgress = function(){
     if(!audio.src) return 0;
-    console.log(audio.currentTime);
-    console.log(audio.duration);
     return audio.currentTime/audio.duration;
   };
 
 
-
+  playerFactory.audio = audio;
   return playerFactory;
 });
