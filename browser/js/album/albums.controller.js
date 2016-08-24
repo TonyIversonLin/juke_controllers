@@ -1,6 +1,6 @@
 'use strict';
 
-juke.controller('AlbumsCtrl', function($scope, AlbumFactory){
+juke.controller('AlbumsCtrl', function($scope, $rootScope, AlbumFactory){
 
 	AlbumFactory.fetchAll()
 		.then(function(albums){
@@ -11,5 +11,14 @@ juke.controller('AlbumsCtrl', function($scope, AlbumFactory){
 			$scope.albums = albums;
 		});
 
+
+	//
+	$rootScope.$on('viewSwap', function(event, data){
+		$scope.showMe = (data.name === 'allAlbums');
+	});
+
+	$scope.viewOneAlbum = function(id){
+		$rootScope.$broadcast('viewSwap', {name: 'oneAlbum', id: id})
+	};
 
 })

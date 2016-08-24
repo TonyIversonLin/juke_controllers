@@ -3,7 +3,11 @@
 
 juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, AlbumFactory, PlayerFactory) {
 
-  AlbumFactory.fetchById(1)
+  $scope.$on('viewSwap', function(event, data){
+    $scope.showMe = (data.name === 'oneAlbum');
+    $scope.id = data.id;
+    
+    AlbumFactory.fetchById($scope.id)
     .then(function(album){
       album.imageUrl = '/api/albums/' + album.id + '/image';
       album.songs.forEach(function(song, i){
@@ -18,6 +22,14 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
     })
     .then(album => $scope.album = album)
     .catch($log.error); // $log service can be turned on and off; also, pre-bound
+
+
+  });
+
+
+  
+  
+
 
 
 $scope.playing = PlayerFactory.isPlaying;
