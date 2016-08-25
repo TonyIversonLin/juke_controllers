@@ -5,14 +5,15 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
 
   $scope.$on('viewSwap', function(event, data){
     $scope.showMe = (data.name === 'oneAlbum');
+    if(!$scope.showMe) return;
     $scope.id = data.id;
     
-    AlbumFactory.fetchById($scope.id)
+    AlbumFactory.fetchById(data.id)
     .then(function(album){
       album.imageUrl = '/api/albums/' + album.id + '/image';
       album.songs.forEach(function(song, i){
         song.audioUrl = '/api/songs/' + song.id + '/audio';
-        song.albumIndx = i;
+        song.albumIndex = i;
       });
 
       StatsFactory.totalTime(album)

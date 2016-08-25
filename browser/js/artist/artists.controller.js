@@ -13,7 +13,8 @@ juke.controller('ArtistsCtrl', function ($scope, $rootScope, ArtistsFactory) {
 
 
 	$scope.viewOneArtist = function(id){
-		// $rootScope.$broadcast('viewSwap', {name: 'oneArtist', id: id})
+		$rootScope.$broadcast('viewSwap', {name: 'oneArtist', id: id})
+		console.log(id)
 		console.log($scope.artists[id]);
 
 	};

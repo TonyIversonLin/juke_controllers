@@ -19,7 +19,8 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
 
 
   $scope.showFooter = function(){
-    return PlayerFactory.isPlaying();
+    if(PlayerFactory.songList) return true;
+    else return false;
   };
 
   // state
