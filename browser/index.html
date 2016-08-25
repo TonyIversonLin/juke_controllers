@@ -50,8 +50,50 @@
           </div>
         </div>
       </div>
-      <!-- ARTISTS LIST -->
+      <!-- ARTIST LIST -->
+      <div ng-controller = "ArtistCtrl" ng-show="showMe">
+        <h3>{{NAME}}</h3>
 
+        <h4>ALBUMS</h4>
+          <div class="row">
+            <div class="col-xs-4" ng-repeat="album in albums">
+              <a class="thumbnail" ng-click="viewOneAlbum(album.id)" href="#">
+                <img ng-src="{{album.imageUrl}}">
+                <div class="caption">
+                  <h5>
+                    <span>{{album.name}}</span>
+                  </h5>
+                  <small>Number of Songs: {{album.songs.length}}</small>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        <h4>SONGS</h4>
+            <table class='table'>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Artists</th>
+                <th>Genre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="song in songs" ng-class="{active: song === getCurrentSong()}">
+                <td>
+                  <button class="btn btn-default btn-xs" ng-click="toggle(song)">
+                    <span class="glyphicon" ng-class="{'glyphicon-pause': playing() &&song === currentSong, 'glyphicon-play': song !== currentSong || !playing()}"></span>
+                  </button>
+                </td>
+                <td>{{ song.name }}</td>
+                <td><span ng-repeat="artist in song.artists">{{ artist.name }}{{ $last ? '' : ', ' }}</span></td>
+                <td>{{ song.genre }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+      </div>      
 
 
       
@@ -100,7 +142,7 @@
                 </div>
               </a>
             </div>
-        </div>
+          </div>
         <!--  -->
       </div>
       
